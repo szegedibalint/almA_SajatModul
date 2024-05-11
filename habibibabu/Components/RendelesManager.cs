@@ -16,16 +16,13 @@ using DotNetNuke.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Christoc.Modules.DNNModule2.Components
+namespace Christoc.Modules.habibibabu.Components
 {
     internal interface IRendelesManager
     {
         void CreateRendeles(Rendeles r);
-        void DeleteRendeles(int rendelesId, int moduleId);
-        void DeleteRendeles(Rendeles r);
         IEnumerable<Rendeles> GetRendelesek(int moduleId);
         Rendeles GetRendeles(int rendelesId, int moduleId);
-        void UpdateRendeles(Rendeles r);
         int GetLastRendelesId();
     }
 
@@ -46,21 +43,6 @@ namespace Christoc.Modules.DNNModule2.Components
                 var rep = ctx.GetRepository<Rendeles>();
                 var lastRendeles = rep.Get().OrderByDescending(r => r.RendelesId).FirstOrDefault();
                 return lastRendeles != null ? lastRendeles.RendelesId : 0;
-            }
-        }
-
-        public void DeleteRendeles(int rendelesId, int moduleId)
-        {
-            var r = GetRendeles(rendelesId, moduleId);
-            DeleteRendeles(r);
-        }
-
-        public void DeleteRendeles(Rendeles r)
-        {
-            using (IDataContext ctx = DataContext.Instance())
-            {
-                var rep = ctx.GetRepository<Rendeles>();
-                rep.Delete(r);
             }
         }
 
@@ -86,14 +68,6 @@ namespace Christoc.Modules.DNNModule2.Components
             return r;
         }
 
-        public void UpdateRendeles(Rendeles r)
-        {
-            using (IDataContext ctx = DataContext.Instance())
-            {
-                var rep = ctx.GetRepository<Rendeles>();
-                rep.Update(r);
-            }
-        }
 
         protected override System.Func<IRendelesManager> GetFactory()
         {
