@@ -30,12 +30,13 @@ namespace Christoc.Modules.habibibabu.Controllers
         {
             var rendeles = new Rendeles(); // Új rendelés létrehozása
 
-            int rendelesSzam = RendelesManager.Instance.GetLastRendelesId();
+            int rendelesSzam = RendelesManager.Instance.GetLastRendelesId() + 1;
             string rendelesSzamStr = DateTime.Now.ToString("yyyyMMdd") + "-" + rendelesSzam.ToString("D6");
 
             // Sikeres rendelés üzenetének frissítése
             string text = rendelesSzamStr;
-            ViewBag.SwalText = text; // Az üzenet tárolása a TempData-ban
+            ViewBag.SwalText = rendelesSzam; // Az üzenet tárolása a TempData-ban
+            ViewBag.teszt = 0;
 
             return View(rendeles);
         }
