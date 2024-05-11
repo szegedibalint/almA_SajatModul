@@ -10,7 +10,6 @@
 ' 
 */
 
-using Christoc.Modules.DNNModule2.Components;
 using Christoc.Modules.habibibabu.Components;
 using Christoc.Modules.habibibabu.Models;
 using DotNetNuke.Entities.Users;
@@ -22,7 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
-namespace Christoc.Modules.DNNModule2.Controllers
+namespace Christoc.Modules.habibibabu.Controllers
 {
     [DnnHandleError]
     public class RendelesController : DnnController
@@ -31,7 +30,7 @@ namespace Christoc.Modules.DNNModule2.Controllers
         {
             var rendeles = new Rendeles(); // Új rendelés létrehozása
 
-            int rendelesSzam = RendelesManager.Instance.GetLastRendelesId() + 1;
+            int rendelesSzam = RendelesManager.Instance.GetLastRendelesId();
             string rendelesSzamStr = DateTime.Now.ToString("yyyyMMdd") + "-" + rendelesSzam.ToString("D6");
 
             // Sikeres rendelés üzenetének frissítése
@@ -47,7 +46,7 @@ namespace Christoc.Modules.DNNModule2.Controllers
         public ActionResult Index(Rendeles rendeles)
         {
             // Az adatok kezelése, például adatbázisba mentés
-            rendeles.CreatedOnDate = DateTime.UtcNow.AddHours(2);
+            rendeles.CreatedOnDate = DateTime.UtcNow;
 
             RendelesManager.Instance.CreateRendeles(rendeles);
 
@@ -60,5 +59,4 @@ namespace Christoc.Modules.DNNModule2.Controllers
 
     }
 }
-
 

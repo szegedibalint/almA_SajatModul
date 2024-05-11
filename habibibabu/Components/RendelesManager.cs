@@ -46,6 +46,8 @@ namespace Christoc.Modules.habibibabu.Components
             }
         }
 
+
+
         public IEnumerable<Rendeles> GetRendelesek(int moduleId)
         {
             IEnumerable<Rendeles> r;
