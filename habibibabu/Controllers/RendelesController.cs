@@ -47,7 +47,7 @@ namespace Christoc.Modules.DNNModule2.Controllers
         public ActionResult Index(Rendeles rendeles)
         {
             // Az adatok kezelése, például adatbázisba mentés
-            rendeles.CreatedOnDate = DateTime.UtcNow;
+            rendeles.CreatedOnDate = DateTime.UtcNow.AddHours(2);
 
             RendelesManager.Instance.CreateRendeles(rendeles);
 
