@@ -1,0 +1,75 @@
+﻿/************************************************************/
+/*****              SqlDataProvider                     *****/
+/*****                                                  *****/
+/*****                                                  *****/
+/***** Note: To manually execute this script you must   *****/
+/*****       perform a search and replace operation     *****/
+/*****       for {databaseOwner} and {objectQualifier}  *****/
+/*****                                                  *****/
+/************************************************************/
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}{objectQualifier}RendelesTulajdonsagok') AND type in (N'U'))
+DROP TABLE {databaseOwner}{objectQualifier}RendelesTulajdonsagok
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}{objectQualifier}Tulajdonsagok') AND type in (N'U'))
+DROP TABLE {databaseOwner}{objectQualifier}Tulajdonsagok
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}{objectQualifier}Rendeles') AND type in (N'U'))
+DROP TABLE {databaseOwner}{objectQualifier}Rendeles
+GO
+
+
+CREATE TABLE {databaseOwner}{objectQualifier}Rendeles
+    (
+        [RendelesId] INT NOT NULL IDENTITY (1, 1)
+                CONSTRAINT [PK_Rendeles] PRIMARY KEY CLUSTERED,
+
+        [NyomtTech] INT,
+        [AtfutIdo] INT,
+        [Darabszam] INT,
+        [Megjegyzes] NVARCHAR(MAX),
+        ModuleId int NOT NULL,
+        CreatedOnDate datetime NOT NULL,
+        
+    )  ON [PRIMARY]
+    TEXTIMAGE_ON [PRIMARY]
+GO
+
+
+
+CREATE TABLE {databaseOwner}{objectQualifier}Tulajdonsagok
+    (
+        [TulajdonsagId] INT NOT NULL IDENTITY (1, 1)
+                CONSTRAINT [PK_Tulajdonsagok] PRIMARY KEY CLUSTERED,
+	    [Hoallo] BIT,
+	    [KemiaiEll] BIT,
+        [MagasSzil] BIT,
+        [UvEll] BIT,
+        [EgyebEll] BIT
+
+    )  ON [PRIMARY]
+GO
+
+CREATE TABLE {databaseOwner}{objectQualifier}RendelesTulajdonsagok
+    (
+        [RendelesId] INT NOT NULL,
+	    [TulajdonsagId] INT NOT NULL
+    )  ON [PRIMARY]
+GO
+
+ALTER TABLE {databaseOwner}{objectQualifier}RendelesTulajdonsagok WITH NOCHECK 
+ADD CONSTRAINT [FK_RendelesTulajdonsagok_Rendeles] FOREIGN KEY ([RendelesId])
+    REFERENCES {databaseOwner}{objectQualifier}Rendeles ([RendelesId]),
+    CONSTRAINT [FK_RendelesTulajdonsagok_Tulajdonsagok] FOREIGN KEY ([TulajdonsagId])
+    REFERENCES {databaseOwner}{objectQualifier}Tulajdonsagok ([TulajdonsagId])
+GO
+
+ALTER TABLE {databaseOwner}{objectQualifier}RendelesTulajdonsagok
+ADD CONSTRAINT [PK_RendelesTulajdonsagok] PRIMARY KEY CLUSTERED (RendelesId, TulajdonsagId)
+GO
+
+/************************************************************/
+/*****              SqlDataProvider                     *****/
+/************************************************************/

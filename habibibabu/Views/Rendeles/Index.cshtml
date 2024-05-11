@@ -1,0 +1,43 @@
+﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<Christoc.Modules.habibibabu.Models.Rendeles>
+
+@using System.Collections.Generic
+@using DotNetNuke.Web.Mvc.Helpers
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<button type="submit">Submit</button>
+
+<script>
+    document.querySelector('form').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevents the default form submission
+
+        // Display SweetAlert2 modal
+        swal({
+            title: "SIKERES FELADÁS!",
+            text: "Csapatunk hamarosan felveszi Önnel a kapcsolatot. Rendelés száma: @ViewBag.SwalText Köszönjük, hogy minket választott és bízik bennünk, biztosak vagyunk benne, hogy elégedett lesz a szolgáltatásunk minőségével. Üdvözlettel: CORVIN 3D",
+            icon: "success",
+            buttons: {
+                confirm: {
+                    text: "VISSZA A FŐOLDALRA",
+                    value: true,
+                    visible: true,
+                    className: "sweet-alert-confirm-btn",
+                    closeModal: true
+                }
+            },
+            className: "sweet-alert-centered"
+        }).then((value) => {
+            // If the user clicks the button in the SweetAlert2 modal, submit the form
+            if (value) {
+                event.target.submit();
+            }
+        });
+    });
+</script>
+
+
+
+
