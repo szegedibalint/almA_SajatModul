@@ -30,28 +30,31 @@ namespace Christoc.Modules.habibibabu.Controllers
         {
             var rendeles = new Rendeles(); // Új rendelés létrehozása
 
+            RendelesViewModel viewModel = new RendelesViewModel
+            {
+                Rendeles = rendeles,
+                // További adatokat is hozzáadhatsz, ha szükséges
+            };
+
             int rendelesSzam = RendelesManager.Instance.GetLastRendelesId() + 1;
             string rendelesSzamStr = DateTime.Now.ToString("yyyyMMdd") + "-" + rendelesSzam.ToString("D6");
 
             // Sikeres rendelés üzenetének frissítése
             string text = rendelesSzamStr;
-            ViewBag.SwalText = rendelesSzam; // Az üzenet tárolása a TempData-ban
-            ViewBag.teszt = 0;
+            ViewBag.SwalText = text; // Az üzenet tárolása a TempData-ban
 
-            return View(rendeles);
+            return View(viewModel);
         }
 
         // Az Index akció, amely kezeli a form elküldését
         [HttpPost]
         [DotNetNuke.Web.Mvc.Framework.ActionFilters.ValidateAntiForgeryToken]
-        public ActionResult Index(Rendeles rendeles)
+        public ActionResult Index(RendelesViewModel viewModel)
         {
             // Az adatok kezelése, például adatbázisba mentés
-            rendeles.CreatedOnDate = DateTime.UtcNow;
+            viewModel.Rendeles.CreatedOnDate = DateTime.UtcNow;
 
-            RendelesManager.Instance.CreateRendeles(rendeles);
-
-
+            RendelesManager.Instance.CreateRendeles(viewModel.Rendeles);
 
             // rendeles tartalmazza a bekért adatokat
             // Utána lehet például átirányítani vagy frissíteni az oldalt

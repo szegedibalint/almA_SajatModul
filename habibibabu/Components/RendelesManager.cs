@@ -21,6 +21,7 @@ namespace Christoc.Modules.habibibabu.Components
     internal interface IRendelesManager
     {
         void CreateRendeles(Rendeles r);
+        void CreateRendelesUgyfel(RendelesUgyfel u);
         IEnumerable<Rendeles> GetRendelesek(int moduleId);
         Rendeles GetRendeles(int rendelesId, int moduleId);
         int GetLastRendelesId();
@@ -34,6 +35,14 @@ namespace Christoc.Modules.habibibabu.Components
             {
                 var rep = ctx.GetRepository<Rendeles>();
                 rep.Insert(r);
+            }
+        }
+        public void CreateRendelesUgyfel(RendelesUgyfel u)
+        {
+            using (IDataContext ctx = DataContext.Instance())
+            {
+                var rep = ctx.GetRepository<RendelesUgyfel>();
+                rep.Insert(u);
             }
         }
         public int GetLastRendelesId()

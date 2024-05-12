@@ -106,8 +106,11 @@
     <Compile Include="Components\FeatureController.cs" />
     <Compile Include="Components\RendelesManager.cs" />
     <Compile Include="Controllers\RendelesController.cs" />
+    <Compile Include="Controllers\RendelesUgyfelController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Models\Rendeles.cs" />
+    <Compile Include="Models\RendelesUgyfel.cs" />
+    <Compile Include="Models\RendelesViewModel.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -144,7 +147,9 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\RendelesUgyfel\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Web.config">
       <SubType>Designer</SubType>

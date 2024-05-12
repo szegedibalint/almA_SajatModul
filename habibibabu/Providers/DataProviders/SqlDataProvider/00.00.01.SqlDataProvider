@@ -12,6 +12,10 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwn
 DROP TABLE {databaseOwner}{objectQualifier}RendelesTulajdonsagok
 GO
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}{objectQualifier}RendelesUgyfel') AND type in (N'U'))
+DROP TABLE {databaseOwner}{objectQualifier}RendelesUgyfel
+GO
+
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}{objectQualifier}Tulajdonsagok') AND type in (N'U'))
 DROP TABLE {databaseOwner}{objectQualifier}Tulajdonsagok
 GO
@@ -35,6 +39,19 @@ CREATE TABLE {databaseOwner}{objectQualifier}Rendeles
         
     )  ON [PRIMARY]
     TEXTIMAGE_ON [PRIMARY]
+GO
+
+CREATE TABLE {databaseOwner}{objectQualifier}RendelesUgyfel
+(
+    [UgyfelId] INT NOT NULL IDENTITY (1, 1)
+            CONSTRAINT [PK_RendelesUgyfel] PRIMARY KEY CLUSTERED,
+    [RendelesId] INT NOT NULL,
+    [Nev] NVARCHAR(100),
+    [Emailcim] NVARCHAR(100),
+    [Telefonszam] NVARCHAR(20)
+    
+)
+ON [PRIMARY]
 GO
 
 
@@ -68,6 +85,11 @@ GO
 
 ALTER TABLE {databaseOwner}{objectQualifier}RendelesTulajdonsagok
 ADD CONSTRAINT [PK_RendelesTulajdonsagok] PRIMARY KEY CLUSTERED (RendelesId, TulajdonsagId)
+GO
+
+ALTER TABLE {databaseOwner}{objectQualifier}RendelesUgyfel WITH NOCHECK 
+ADD CONSTRAINT [FK_RendelesUgyfel_Rendeles] FOREIGN KEY ([RendelesId])
+    REFERENCES {databaseOwner}{objectQualifier}Rendeles ([RendelesId])
 GO
 
 /************************************************************/
