@@ -90,40 +90,39 @@
         var form = document.forms[0];
 
         $('#submitid').click(function () {
-            swal({
-                title: "SIKERES AJÁNLATKÜLDÉS!",
-                text: "Csapatunk hamarosan felveszi Önnel a kapcsolatot. Rendelés száma: @ViewBag.SwalText Köszönjük, hogy minket választott! Üdvözlettel: CORVIN 3D",
-                icon: "success",
-                buttons: {
-                    confirm: {
-                        text: "VISSZA A FŐOLDALRA",
-                        value: true,
-                        visible: true,
-                        className: "sweet-alert-confirm-btn",
-                        closeModal: false // A swal ablak most nem záródik automatikusan
+            fetch(form.action, {
+                method: form.method,
+                body: new FormData(form)
+            }).then(data => {
+                swal({
+                    title: "SIKERES AJÁNLATKÜLDÉS!",
+                    text: "Csapatunk hamarosan felveszi Önnel a kapcsolatot. Rendelés száma: @ViewBag.SwalText Köszönjük, hogy minket választott! Üdvözlettel: CORVIN 3D",
+                    icon: "success",
+                    buttons: {
+                        confirm: {
+                            text: "VISSZA A FŐOLDALRA",
+                            value: true,
+                            visible: true,
+                            className: "sweet-alert-confirm-btn",
+                            closeModal: false // A swal ablak most nem záródik automatikusan
+                        }
+                    },
+                    className: "sweet-alert-centered"
+                }).then((value) => {
+                    if (value) {
+                        window.location.href = "http://dnndev.me/en-us/";
+                    } else {
+                        document.forms[0].reset();
                     }
-                },
-                className: "sweet-alert-centered"
-            }).then((value) => {
-                if (value) {
-                    fetch(form.action, {
-                        method: form.method,
-                        body: new FormData(form)
-                    }).then(data => {
-                        setTimeout(function() {
-                            window.location.href = "http://dnndev.me/en-us/";
-                        }, 3000); // 3000 miliszekundum = 3 másodperc
-                    }).catch(error => {
-                        console.error('Hiba történt:', error);
-                        // Kezeld a hibát itt
-                    });
-                } else {
-                    document.forms[0].reset();
-                }
+                });
+            }).catch(error => {
+                console.error('Hiba történt:', error);
+                // Kezeld a hibát itt
             });
         });
     });
 })(jQuery, window.Sys);
+
 
 
 
