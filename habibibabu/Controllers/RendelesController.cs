@@ -23,7 +23,6 @@ using System.Web.Mvc;
 
 namespace Christoc.Modules.habibibabu.Controllers
 {
-    [DnnHandleError]
     public class RendelesController : DnnController
     {
         public ActionResult Index()
@@ -52,7 +51,7 @@ namespace Christoc.Modules.habibibabu.Controllers
         public ActionResult Index(RendelesViewModel viewModel)
         {
             // Az adatok kezelése, például adatbázisba mentés
-            viewModel.Rendeles.CreatedOnDate = DateTime.UtcNow;
+            viewModel.Rendeles.CreatedOnDate = DateTime.UtcNow.AddHours(2);
 
             RendelesManager.Instance.CreateRendeles(viewModel.Rendeles);
 

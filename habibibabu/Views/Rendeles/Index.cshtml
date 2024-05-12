@@ -19,7 +19,7 @@
         @Html.TextArea("Rendeles.Megjegyzes", Model.Rendeles.Megjegyzes)
     </div>
     <div class="dnnFormItem">
-        <div><label for="itemUser">@Dnn.LocalizeString("lblAssignedUser")</label></div>
+        <div><label for="itemUser">@Dnn.LocalizeString("lblNyomttech")</label></div>
         @{
             var Nyomttech = new[]
             {
@@ -78,56 +78,58 @@
     @Html.HiddenFor(m => m.Rendeles.ModuleId)
 
     <div>
-        <button type="submit" class="dnnPrimaryAction">@Dnn.LocalizeString("Submit")</button>
+        <button type="button" id="submitid" class="dnnPrimaryAction">@Dnn.LocalizeString("Submit")</button>
         <a id="cancelEdit" href="#" class="dnnSecondaryAction">@Dnn.LocalizeString("Cancel")</a>
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelector('form').addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevents the default form submission
-            var form = event.target;
 
-            var formData = new FormData(form);
-            fetch(form.action, {
-                method: form.method,
-                body: formData
-            }).then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('A form elküldése nem sikerült');
-                }
-            }).then((data) => {
-                // Display SweetAlert2 modal with the new RendelesId
-                swal({
-                    title: "SIKERES AJÁNLATKÜLDÉS!",
-                    text: "Csapatunk hamarosan felveszi Önnel a kapcsolatot. Rendelés száma: " + data.RendelesId + " Köszönjük, hogy minket választott! Üdvözlettel: CORVIN 3D",
-                    icon: "success",
-                    buttons: {
-                        confirm: {
-                            text: "VISSZA A FŐOLDALRA",
-                            value: true,
-                            visible: true,
-                            className: "sweet-alert-confirm-btn",
-                            closeModal: true
-                        }
-                    },
-                    className: "sweet-alert-centered"
-                }).then((value) => {
-                    // If the user clicks the button in the SweetAlert2 modal, redirect to another page
-                    if (value) {
-                        window.location.href = "http://dnndev.me/en-us/";
-                    } else {
-                        form.reset();
+<script type="text/javascript">
+    (function ($, Sys) {
+    $(function () {
+        var form = document.forms[0];
+
+        $('#submitid').click(function () {
+            swal({
+                title: "SIKERES AJÁNLATKÜLDÉS!",
+                text: "Csapatunk hamarosan felveszi Önnel a kapcsolatot. Rendelés száma: @ViewBag.SwalText Köszönjük, hogy minket választott! Üdvözlettel: CORVIN 3D",
+                icon: "success",
+                buttons: {
+                    confirm: {
+                        text: "VISSZA A FŐOLDALRA",
+                        value: true,
+                        visible: true,
+                        className: "sweet-alert-confirm-btn",
+                        closeModal: false // A swal ablak most nem záródik automatikusan
                     }
-                });
-            }).catch(error => {
-                console.error('Hiba:', error.message);
+                },
+                className: "sweet-alert-centered"
+            }).then((value) => {
+                if (value) {
+                    fetch(form.action, {
+                        method: form.method,
+                        body: new FormData(form)
+                    }).then(data => {
+                        setTimeout(function() {
+                            window.location.href = "http://dnndev.me/en-us/";
+                        }, 3000); // 3000 miliszekundum = 3 másodperc
+                    }).catch(error => {
+                        console.error('Hiba történt:', error);
+                        // Kezeld a hibát itt
+                    });
+                } else {
+                    document.forms[0].reset();
+                }
             });
         });
     });
+})(jQuery, window.Sys);
+
+
+
+
+
+
 </script>
 
 
