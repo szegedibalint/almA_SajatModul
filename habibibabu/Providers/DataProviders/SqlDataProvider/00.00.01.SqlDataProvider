@@ -16,9 +16,6 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwn
 DROP TABLE {databaseOwner}{objectQualifier}RendelesUgyfel
 GO
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}{objectQualifier}Tulajdonsagok') AND type in (N'U'))
-DROP TABLE {databaseOwner}{objectQualifier}Tulajdonsagok
-GO
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}{objectQualifier}Rendeles') AND type in (N'U'))
 DROP TABLE {databaseOwner}{objectQualifier}Rendeles
@@ -29,13 +26,14 @@ CREATE TABLE {databaseOwner}{objectQualifier}Rendeles
     (
         [RendelesId] INT NOT NULL IDENTITY (1, 1)
                 CONSTRAINT [PK_Rendeles] PRIMARY KEY CLUSTERED,
-
         [NyomtTech] INT,
-        [AtfutIdo] INT,
-        [Darabszam] INT,
+        [AtfutIdo] INT NOT NULL,
+        [Darabszam] INT NOT NULL,
+        [Szin] NVARCHAR(7) NOT NULL,
         [Megjegyzes] NVARCHAR(MAX),
-        ModuleId int NOT NULL,
-        CreatedOnDate datetime NOT NULL,
+        [FilePath] NVARCHAR(100),
+        ModuleId int,
+        CreatedOnDate datetime NOT NULL
         
     )  ON [PRIMARY]
     TEXTIMAGE_ON [PRIMARY]
@@ -43,12 +41,13 @@ GO
 
 CREATE TABLE {databaseOwner}{objectQualifier}RendelesUgyfel
 (
-    [UgyfelId] INT NOT NULL IDENTITY (1, 1)
+    [Ugyfel_Id] INT NOT NULL IDENTITY (1, 1)
             CONSTRAINT [PK_RendelesUgyfel] PRIMARY KEY CLUSTERED,
     [RendelesId] INT NOT NULL,
-    [Nev] NVARCHAR(100),
-    [Emailcim] NVARCHAR(100),
-    [Telefonszam] NVARCHAR(20)
+    [Ceg] NVARCHAR(100),
+    [Nev] NVARCHAR(100) NOT NULL,
+    [Emailcim] NVARCHAR(100) NOT NULL,
+    [Telefonszam] NVARCHAR(20) NOT NULL
     
 )
 ON [PRIMARY]
@@ -56,41 +55,22 @@ GO
 
 
 
-CREATE TABLE {databaseOwner}{objectQualifier}Tulajdonsagok
+CREATE TABLE {databaseOwner}{objectQualifier}RendelesTulajdonsagok
     (
         [TulajdonsagId] INT NOT NULL IDENTITY (1, 1)
                 CONSTRAINT [PK_Tulajdonsagok] PRIMARY KEY CLUSTERED,
-	    [Hoallo] BIT,
-	    [KemiaiEll] BIT,
-        [MagasSzil] BIT,
-        [UvEll] BIT,
-        [EgyebEll] BIT
-
-    )  ON [PRIMARY]
-GO
-
-CREATE TABLE {databaseOwner}{objectQualifier}RendelesTulajdonsagok
-    (
         [RendelesId] INT NOT NULL,
-	    [TulajdonsagId] INT NOT NULL
+	    [Hoallo] BIT NOT NULL,
+	    [KemiaiEll] BIT NOT NULL,
+        [MagasSzil] BIT NOT NULL,
+        [UvEll] BIT NOT NULL
+
     )  ON [PRIMARY]
 GO
 
-ALTER TABLE {databaseOwner}{objectQualifier}RendelesTulajdonsagok WITH NOCHECK 
-ADD CONSTRAINT [FK_RendelesTulajdonsagok_Rendeles] FOREIGN KEY ([RendelesId])
-    REFERENCES {databaseOwner}{objectQualifier}Rendeles ([RendelesId]),
-    CONSTRAINT [FK_RendelesTulajdonsagok_Tulajdonsagok] FOREIGN KEY ([TulajdonsagId])
-    REFERENCES {databaseOwner}{objectQualifier}Tulajdonsagok ([TulajdonsagId])
-GO
 
-ALTER TABLE {databaseOwner}{objectQualifier}RendelesTulajdonsagok
-ADD CONSTRAINT [PK_RendelesTulajdonsagok] PRIMARY KEY CLUSTERED (RendelesId, TulajdonsagId)
-GO
 
-ALTER TABLE {databaseOwner}{objectQualifier}RendelesUgyfel WITH NOCHECK 
-ADD CONSTRAINT [FK_RendelesUgyfel_Rendeles] FOREIGN KEY ([RendelesId])
-    REFERENCES {databaseOwner}{objectQualifier}Rendeles ([RendelesId])
-GO
+
 
 /************************************************************/
 /*****              SqlDataProvider                     *****/

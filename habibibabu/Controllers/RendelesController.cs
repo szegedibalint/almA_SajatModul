@@ -17,6 +17,7 @@ using DotNetNuke.Framework.JavaScriptLibraries;
 using DotNetNuke.Web.Mvc.Framework.ActionFilters;
 using DotNetNuke.Web.Mvc.Framework.Controllers;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -27,12 +28,15 @@ namespace Christoc.Modules.habibibabu.Controllers
     {
         public ActionResult Index()
         {
-            var rendeles = new Rendeles(); // Új rendelés létrehozása
+            var rendeles = new Rendeles();
+            var rendelesugyfel = new RendelesUgyfel();
+            var rendelestulajdonsagok = new RendelesTulajdonsagok();
 
             RendelesViewModel viewModel = new RendelesViewModel
             {
                 Rendeles = rendeles,
-                // További adatokat is hozzáadhatsz, ha szükséges
+                RendelesUgyfel = rendelesugyfel,
+                RendelesTulajdonsagok = rendelestulajdonsagok,
             };
 
             int rendelesSzam = RendelesManager.Instance.GetLastRendelesId() + 1;
@@ -51,9 +55,39 @@ namespace Christoc.Modules.habibibabu.Controllers
         public ActionResult Index(RendelesViewModel viewModel)
         {
             // Az adatok kezelése, például adatbázisba mentés
-            viewModel.Rendeles.CreatedOnDate = DateTime.UtcNow.AddHours(2);
+            if (viewModel.file != null)
+            {
+                string path = Server.MapPath("~/SavedFiles");
+                string filename = Path.GetFileNameWithoutExtension(viewModel.file.FileName);
+                string extension = Path.GetExtension(viewModel.file.FileName);
+                string fullpath = Path.Combine(path, filename + extension);
 
-            RendelesManager.Instance.CreateRendeles(viewModel.Rendeles);
+                int count = 1;
+                while (System.IO.File.Exists(fullpath))
+                {
+                    string tempFileName = string.Format("{0}({1})", filename, count++);
+                    fullpath = Path.Combine(path, tempFileName + extension);
+                }
+
+                viewModel.file.SaveAs(fullpath);
+                viewModel.Rendeles.FilePath = fullpath;
+            }
+
+            if (viewModel != null && viewModel.Rendeles != null)
+            {
+                //Rendelés létrehozása
+                viewModel.Rendeles.CreatedOnDate = DateTime.UtcNow.AddHours(2);
+                RendelesManager.Instance.CreateRendeles(viewModel.Rendeles);
+                //RendelésUgyfel létrehozása, rendelesid összekötése
+                var rendid = viewModel.Rendeles.RendelesId;
+                viewModel.RendelesUgyfel.RendelesId = rendid;
+                RendelesManager.Instance.CreateRendelesUgyfel(viewModel.RendelesUgyfel);
+                //RendelésTulajdonságok létrehozása, rendelesid összekötése
+                viewModel.RendelesTulajdonsagok.RendelesId = rendid;
+                RendelesManager.Instance.CreateRendelesTulajdonsagok(viewModel.RendelesTulajdonsagok);
+                //hotcakes order leadás
+                RendelesManager.Instance.RendelesLeadas(viewModel);
+            }
 
             // rendeles tartalmazza a bekért adatokat
             // Utána lehet például átirányítani vagy frissíteni az oldalt

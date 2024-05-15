@@ -148,7 +148,7 @@
     <value>Darab</value>
   </data>
   <data name="Submit.Text" xml:space="preserve">
-    <value>Mentés</value>
+    <value>Leadás</value>
   </data>
   <data name="NoRendelesek.Text" xml:space="preserve">
     <value>Nincs még rendelésed öcskös</value>
@@ -158,5 +158,20 @@
   </data>
   <data name="lblTulajdonsag.Text" xml:space="preserve">
     <value>Elvárt tulajdonságok</value>
+  </data>
+  <data name="lblSzin.Text" xml:space="preserve">
+    <value>Szín</value>
+  </data>
+  <data name="lblCeg.Text" xml:space="preserve">
+    <value>Cég</value>
+  </data>
+  <data name="lblEmail.Text" xml:space="preserve">
+    <value>Email Cím</value>
+  </data>
+  <data name="lblNev.Text" xml:space="preserve">
+    <value>Név</value>
+  </data>
+  <data name="lblTelefon.Text" xml:space="preserve">
+    <value>Telefonszám</value>
   </data>
 </root>

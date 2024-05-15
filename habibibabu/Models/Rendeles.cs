@@ -18,28 +18,10 @@ namespace Christoc.Modules.habibibabu.Models
         public Nullable<int> NyomtTech { get; set; }
         public Nullable<int> AtfutIdo { get; set; }
         public Nullable<int> Darabszam { get; set; }
+        public string Szin {  get; set; }
         public string Megjegyzes { get; set; }
-
-        ///<summary>
-        /// The ModuleId of where the object was created and gets displayed
-        ///</summary>
+        public string FilePath { get; set; }
         public int ModuleId { get; set; }
-
-        ///<summary>
-        /// An integer for the user id of the user who created the object
-        ///</summary>
-
-        ///<summary>
-        /// An integer for the user id of the user who last updated the object
-        ///</summary>
-
-        ///<summary>
-        /// The date the object was created
-        ///</summary>
-        public DateTime CreatedOnDate { get; set; } = DateTime.UtcNow;
-
-        ///<summary>
-        /// The date the object was updated
-        ///</summary>
+        public DateTime CreatedOnDate { get; set; }
     }
 }
