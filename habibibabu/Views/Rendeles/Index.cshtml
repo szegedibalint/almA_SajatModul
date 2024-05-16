@@ -119,7 +119,7 @@
             </div>
             <div class="megjegyzes">
                 <div class="dnnFormItem">
-                    <div><label style="border: solid black 1px; border-radius: 7px;" for="megjegyzes">@Dnn.LocalizeString("lblMegjegyzes")</label></div>
+                    <div><label for="megjegyzes">@Dnn.LocalizeString("lblMegjegyzes")</label></div>
                     @Html.TextArea("Rendeles.Megjegyzes", Model.Rendeles.Megjegyzes)
                 </div>
             </div>
@@ -133,21 +133,21 @@
     <div class="row" style="text-align: center !important;">
         <div class="col-md-6" style="text-align: center !important;">
             <div class="dnnFormItem">
-                <div><label for="nev">@Dnn.LocalizeString("lblNev")</label></div>
+                <div><label for="Nev">@Dnn.LocalizeString("lblNev")</label></div>
                 <input type="text" id="Nev" name="RendelesUgyfel.Nev" value="@Model.RendelesUgyfel.Nev">
             </div>
             <div class="dnnFormItem">
-                <div><label for="nev">@Dnn.LocalizeString("lblCeg")</label></div>
+                <div><label for="Ceg">@Dnn.LocalizeString("lblCeg")</label></div>
                 <input type="text" id="Ceg" name="RendelesUgyfel.Ceg" value="@Model.RendelesUgyfel.Ceg">
             </div>
         </div>
         <div class="col-md-6" style="text-align: center !important;">
             <div class="dnnFormItem">
-                <div><label for="nev">@Dnn.LocalizeString("lblEmail")</label></div>
+                <div><label for="Emailcim">@Dnn.LocalizeString("lblEmail")</label></div>
                 <input type="text" id="Emailcim" name="RendelesUgyfel.Emailcim" value="@Model.RendelesUgyfel.Emailcim">
             </div>
             <div class="dnnFormItem">
-                <div><label for="nev">@Dnn.LocalizeString("lblTelefon")</label></div>
+                <div><label for="Telefonszam">@Dnn.LocalizeString("lblTelefon")</label></div>
                 <input type="text" id="Telefonszam" name="RendelesUgyfel.Telefonszam" value="@Model.RendelesUgyfel.Telefonszam">
             </div>
         </div>
@@ -185,67 +185,71 @@
             var nevInput = document.getElementById('Nev');
             var emailInput = document.getElementById('Emailcim');
             var telefonInput = document.getElementById('Telefonszam');
-            var cegInput = document.getElementById('Ceg');
 
             // Kezdetben letiltjuk az elküldés gombot
             submitButton.disabled = true;
 
             function validateForm() {
                 var re = /^#[0-9A-F]{6}$/i;
-                if (re.test(szinInput.value) && nevInput.value.trim() !== "" && emailInput.value.trim() !== "" && /^\+?[0-9]*$/.test(telefonInput.value) && cegInput.value.trim() !== "") {
+                var telre = /^\+?[0-9]+$/i;
+                var emailre = /\S+@("@")\S+\.\S+/i;
+                if (re.test(szinInput.value) && nevInput.value.trim() !== "" && emailre.test(emailInput.value) && telre.test(telefonInput.value)) {
                     submitButton.disabled = false; // Engedélyezzük az elküldés gombot
                 } else {
                     submitButton.disabled = true; // Letiltjuk az elküldés gombot
                 }
             }
 
+            // Hibaüzenetek megjelenítése
+            var errorDivs = {};
+            ['Szin', 'Nev', 'Emailcim', 'Telefonszam'].forEach(function(id) {
+                var input = document.getElementById(id);
+                var errorDiv = document.createElement('div');
+                errorDiv.id = id + 'Error';
+                input.parentNode.insertBefore(errorDiv, input.nextSibling);
+                errorDivs[id] = errorDiv;
+            });
+
             szinInput.addEventListener('input', function (e) {
                 var re = /^#[0-9A-F]{6}$/i;
                 if (re.test(e.target.value)) {
-                    e.target.style.backgroundColor = ""; // visszaállítja az eredeti háttérszínt
-                    e.target.title = ""; // üresre állítja a title attribútumot
+                    errorDivs['Szin'].textContent = '';
                 } else {
-                    e.target.style.backgroundColor = "red"; // hibás bevitel esetén pirosra változtatja a háttérszínt
-                    e.target.title = 'Kérlek, adj meg egy érvényes hexadecimális színkódot! (#AA00FF)'; // beállítja a title attribútumot
+                    errorDivs['Szin'].textContent = 'Kérlek, adj meg egy érvényes hexadecimális színkódot! (#AA00FF)';
                 }
                 validateForm();
             });
 
             nevInput.addEventListener('input', function (e) {
                 if (e.target.value.trim() !== "") {
-                    e.target.title = "";
+                    errorDivs['Nev'].textContent = '';
                 } else {
-                    e.target.title = 'Kérlek, adj meg egy érvényes nevet!';
+                    errorDivs['Nev'].textContent = 'Kérlek, adj meg egy érvényes nevet!';
                 }
                 validateForm();
             });
 
             emailInput.addEventListener('input', function (e) {
-                if (e.target.value.trim() !== "") {
-                    e.target.title = "";
-                } else {
-                    e.target.title = 'Kérlek, töltse ki az email mezőt!';
-                }
-                validateForm();
+                setTimeout(function() {
+                    var re = /\S+@("@")\S+\.\S+/;
+                    if (re.test(e.target.value)) {
+                        errorDivs['Emailcim'].textContent = '';
+                    } else {
+                        errorDivs['Emailcim'].textContent = 'Kérlek, adj meg egy érvényes email címet!';
+                    }
+                    validateForm();
+                }, 100);
             });
 
             telefonInput.addEventListener('input', function (e) {
-                if (/^\+?[0-9]*$/.test(e.target.value)) {
-                    e.target.title = "";
+                if (/^\+?[0-9]+$/.test(e.target.value)) {
+                    errorDivs['Telefonszam'].textContent = '';
                 } else {
-                    e.target.title = 'Kérlek, adj meg egy érvényes telefonszámot!';
+                    errorDivs['Telefonszam'].textContent = 'Kérlek, adj meg egy érvényes telefonszámot!';
                 }
                 validateForm();
             });
 
-            cegInput.addEventListener('input', function (e) {
-                if (e.target.value.trim() !== "") {
-                    e.target.title = "";
-                } else {
-                    e.target.title = 'Kérlek, töltse ki a cég mezőt!';
-                }
-                validateForm();
-            });
 
 
 

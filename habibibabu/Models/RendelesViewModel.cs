@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Christoc.Modules.habibibabu.Models
 {
-    [Scope("ModuleId")]
+    //[Scope("ModuleId")]
     public class RendelesViewModel
     {
         public Rendeles Rendeles { get; set; }
