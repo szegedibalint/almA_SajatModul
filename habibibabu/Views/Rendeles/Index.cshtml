@@ -9,58 +9,65 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <style>
-    input#file-input {
-        display: none;
-    }
-
-        input#file-input + label {
-            background-color: #814ab0;
-            padding: 8px;
-            color: white;
-            border-radius: 15px;
-            border: 1px solid black;
+        input#file-input {
+            display: none;
         }
 
-            input#file-input + label:hover {
-                background-color: #7624bd;
+            input#file-input + label {
+                background-color: #814ab0;
+                padding: 8px;
                 color: white;
-                cursor: pointer;
+                border-radius: 15px;
                 border: 1px solid black;
             }
 
-    .dnnPrimaryAction, .dnnFormItem input[type="submit"], a.dnnPrimaryAction {
-        background-color: #814ab0 !important;
-        background-image: -webkit-linear-gradient(top, #814ab0 0%, #814ab0 100%) !important;
-        border: #814ab0 !important;
-    }
+                input#file-input + label:hover {
+                    background-color: #7624bd;
+                    color: white;
+                    cursor: pointer;
+                    border: 1px solid black;
+                }
+
+        .dnnPrimaryAction, .dnnFormItem input[type="submit"], a.dnnPrimaryAction {
+            background-color: #814ab0 !important;
+            background-image: -webkit-linear-gradient(top, #814ab0 0%, #814ab0 100%) !important;
+            border: #814ab0 !important;
+        }
+
+        textarea {
+            width: 98% !important;
+            height: 200px !important;
+            border: solid black 1px !important;
+            border-radius: 7px !important;
+        }
 </style>
 
 
 
 <div id="Item-@Dnn.ModuleContext.ModuleId" style="width: 75% !important; margin:0 auto;">
     <h2 style="color: white !important; font-family: Arial, Helvetica, sans-serif !important; font-size: 25px !important; text-align: center; background-color: #814ab0
-            ; border-radius: 20px; padding: 5px; font-weight: bold; margin-top: 15px; margin-bottom: 15px;">
+                    ; border-radius: 20px; padding: 5px; font-weight: bold; margin-top: 15px; margin-bottom: 15px;">
         KONFIGURÁCIÓ
     </h2>
     <div class="row">
         <div class="col-md-6" style="text-align: left !important;">
             <div class="dnnFormItem">
-                <div><label for="itemUser">@Dnn.LocalizeString("lblNyomttech")</label></div>
+                <div><label style="font-size: 15px !important; font-weight: bold !important;" for="itemUser">@Dnn.LocalizeString("lblNyomttech")</label></div>
                 @{
                     var Nyomttech = new[]
                     {
-                    new { NyomtTech = 1, Technologia = "FDM" },
-                    new { NyomtTech = 2, Technologia = "SLA" },
-                    new { NyomtTech = 3, Technologia = "SLS" },
-                    new { NyomtTech = 4, Technologia = "DMP (Fém)" },
-                    new { NyomtTech = 5, Technologia = "CFC Kompozit" }
-                };
+                            new { NyomtTech = 1, Technologia = "FDM" },
+                            new { NyomtTech = 2, Technologia = "SLA" },
+                            new { NyomtTech = 3, Technologia = "SLS" },
+                            new { NyomtTech = 4, Technologia = "DMP (Fém)" },
+                            new { NyomtTech = 5, Technologia = "CFC Kompozit" }
+                        };
                     var nyomttechlist = new SelectList(Nyomttech, "NyomtTech", "Technologia");
                 }
-                @Html.DropDownListFor(m => m.Rendeles.NyomtTech, nyomttechlist)
+                @Html.DropDownListFor(m => m.Rendeles.NyomtTech, nyomttechlist, new { @style = "width: 100% !important; border: solid black 1px !important;  border-radius: 7px !important;" })
             </div>
             <div class="dnnFormItem">
-                <div><label>@Dnn.LocalizeString("lblTulajdonsag")</label></div>
+                <div><label style="font-size: 15px !important; font-weight: bold !important;">@Dnn.LocalizeString("lblTulajdonsag")</label></div>
                 <div style="border: solid black 1px; border-radius: 7px; padding: 7px;">
                     <div>
                         <input type="checkbox" id="Hoallo" name="RendelesTulajdonsagok.Hoallo" value="true" />
@@ -81,7 +88,7 @@
                 </div>
             </div>
             <div class="dnnFormItem">
-                <div><label>@Dnn.LocalizeString("lblAtfutido")</label></div>
+                <div><label style="font-size: 15px !important; font-weight: bold !important; margin-top: 10px !important; margin-bottom: 10px !important;">@Dnn.LocalizeString("lblAtfutido")</label></div>
                 <div style="border: solid black 1px; border-radius: 7px; padding: 7px;">
                     <div>
                         <label>
@@ -107,19 +114,21 @@
         <div class="col-md-6" style="text-align: left !;">
             <div class="darabszam">
                 <div class="dnnFormItem">
-                    <div><label for="rendelesName">@Dnn.LocalizeString("lblDarab")</label></div>
-                    <input style="border: solid black 1px; border-radius: 7px;" type="number" id="Darabszam" name="Rendeles.Darabszam" value="@Model.Rendeles.Darabszam" value="1" min="1" required />
+                    <div><label for="rendelesName" style="font-size: 15px !important; font-weight: bold !important;">@Dnn.LocalizeString("lblDarab")</label></div>
+                    <input style="border: solid black 1px; border-radius: 7px; width: 98% !important; font-size: 15px !important; text-align: center !important; height: 35px !important;" type="number" id="Darabszam" name="Rendeles.Darabszam" value="@Model.Rendeles.Darabszam" value="1" min="1" required />
                 </div>
             </div>
-            <div class="szin">
-                <div class="dnnFormItem">
-                    <div><label for="szin">@Dnn.LocalizeString("lblSzin")</label></div>
-                    <input style="border: solid black 1px; border-radius: 7px;" type="text" id="Szin" name="Rendeles.Szin" value="@Model.Rendeles.Szin">
+            <div class="szin" style="margin-top: 5.5% !important; margin-bottom: 0 !important; padding-bottom: 10 !important; width: 98% !important;">
+                <div class="dnnFormItem" style="margin-bottom: -5% !important; padding-bottom: 1% !important;">
+                    <div><label for="szin" style="font-size: 15px !important; font-weight: bold !important;">@Dnn.LocalizeString("lblSzin")</label></div>
+                    <input style="border: solid black 1px; border-radius: 7px; width: 98% !important; font-size: 15px !important; text-align: center !important; height: 35px !important;" type="text" id="Szin" name="Rendeles.Szin" value="@Model.Rendeles.Szin">
                 </div>
             </div>
-            <div class="megjegyzes">
-                <div class="dnnFormItem">
-                    <div><label for="megjegyzes">@Dnn.LocalizeString("lblMegjegyzes")</label></div>
+            <div id="szinError" style="height: 25px !important; color: red !important; font-weight: bold !important; font-size: 10px !important;">
+            </div>
+            <div class="megjegyzes" style="width: 98% !important;">
+                <div class="dnnFormItem" style="width: 98% !important;">
+                    <div><label for="megjegyzes" style="font-size: 15px !important; font-weight: bold !important;">@Dnn.LocalizeString("lblMegjegyzes")</label></div>
                     @Html.TextArea("Rendeles.Megjegyzes", Model.Rendeles.Megjegyzes)
                 </div>
             </div>
@@ -127,29 +136,32 @@
         </div>
     </div>
     <h2 style="color: white !important; font-family: Arial, Helvetica, sans-serif !important; font-size: 25px !important; text-align: center; background-color: #814ab0
-            ; border-radius: 20px; padding: 5px; font-weight: bold; margin-top: 15px; margin-bottom: 15px;">
+                    ; border-radius: 20px; padding: 5px; font-weight: bold; margin-top: 15px; margin-bottom: 15px;">
         AJÁNLATKÉRÉS
     </h2>
     <div class="row" style="text-align: center !important;">
         <div class="col-md-6" style="text-align: center !important;">
-            <div class="dnnFormItem">
-                <div><label for="Nev">@Dnn.LocalizeString("lblNev")</label></div>
-                <input type="text" id="Nev" name="RendelesUgyfel.Nev" value="@Model.RendelesUgyfel.Nev">
+            <div class="dnnFormItem" style="margin-bottom: -5% !important; padding-bottom: 1% !important;">
+                <div><label style="font-size: 15px !important; font-weight: bold !important;" for="Nev">@Dnn.LocalizeString("lblNev")</label></div>
+                <input style="border: solid black 1px; border-radius: 7px; width: 60% !important; font-size: 13px !important;" type="text" id="Nev" name="RendelesUgyfel.Nev" value="@Model.RendelesUgyfel.Nev">
             </div>
+            <div id="nevError" style="height: 25px !important; color: red !important; font-weight: bold !important; font-size: 10px !important;"></div>
             <div class="dnnFormItem">
-                <div><label for="Ceg">@Dnn.LocalizeString("lblCeg")</label></div>
-                <input type="text" id="Ceg" name="RendelesUgyfel.Ceg" value="@Model.RendelesUgyfel.Ceg">
+                <div><label style="font-size: 15px !important; font-weight: bold !important;" for="Ceg">@Dnn.LocalizeString("lblCeg")</label></div>
+                <input style="border: solid black 1px; border-radius: 7px; width: 60% !important; font-size: 13px !important" type="text" id="Ceg" name="RendelesUgyfel.Ceg" value="@Model.RendelesUgyfel.Ceg">
             </div>
         </div>
         <div class="col-md-6" style="text-align: center !important;">
-            <div class="dnnFormItem">
-                <div><label for="Emailcim">@Dnn.LocalizeString("lblEmail")</label></div>
-                <input type="text" id="Emailcim" name="RendelesUgyfel.Emailcim" value="@Model.RendelesUgyfel.Emailcim">
+            <div class="dnnFormItem" style="margin-bottom: -5% !important; padding-bottom: 1% !important;">
+                <div><label style="font-size: 15px !important; font-weight: bold !important;" for="Emailcim">@Dnn.LocalizeString("lblEmail")</label></div>
+                <input style="border: solid black 1px; border-radius: 7px; width: 60% !important; font-size: 13px !important" type="text" id="Emailcim" name="RendelesUgyfel.Emailcim" value="@Model.RendelesUgyfel.Emailcim">
             </div>
-            <div class="dnnFormItem">
-                <div><label for="Telefonszam">@Dnn.LocalizeString("lblTelefon")</label></div>
-                <input type="text" id="Telefonszam" name="RendelesUgyfel.Telefonszam" value="@Model.RendelesUgyfel.Telefonszam">
+            <div id="emailError" style="height: 25px !important; color: red !important; font-weight: bold !important; font-size: 10px !important;"></div>
+            <div class="dnnFormItem" style="margin-bottom: -5% !important; padding-bottom: 1% !important;">
+                <div><label style="font-size: 15px !important; font-weight: bold !important;" for="Telefonszam">@Dnn.LocalizeString("lblTelefon")</label></div>
+                <input style="border: solid black 1px; border-radius: 7px; width: 60% !important; font-size: 13px !important" type="text" id="Telefonszam" name="RendelesUgyfel.Telefonszam" value="@Model.RendelesUgyfel.Telefonszam">
             </div>
+            <div id="telefonError" style="height: 25px !important; color: red !important; font-weight: bold !important; font-size: 10px !important;"></div>
         </div>
         <div class="row" style="text-align: center !important; margin-bottom: 20px !important; margin-top: 20px !important;">
             <input style="font-size: 15px !important; " type="file" id="file-input" name="file" />
@@ -159,12 +171,12 @@
                 <span id="file-name">Nincs</span>
             </span>
             <script>
-                    let inputFile = document.getElementById('file-input');
-                    let fileNameField = document.getElementById('file-name');
-                    inputFile.addEventListener('change', function (event) {
-                        let uploadedFileName = event.target.files[0].name;
-                        fileNameField.textContent = uploadedFileName;
-                    })
+                let inputFile = document.getElementById('file-input');
+                let fileNameField = document.getElementById('file-name');
+                inputFile.addEventListener('change', function (event) {
+                    let uploadedFileName = event.target.files[0].name;
+                    fileNameField.textContent = uploadedFileName;
+                })
             </script>
 
         </div>
@@ -180,114 +192,107 @@
 
 <script type="text/javascript">
 
-            var szinInput = document.getElementById('Szin');
-            var submitButton = document.getElementById('submitid');
-            var nevInput = document.getElementById('Nev');
-            var emailInput = document.getElementById('Emailcim');
-            var telefonInput = document.getElementById('Telefonszam');
+                    var szinInput = document.getElementById('Szin');
+                    var submitButton = document.getElementById('submitid');
+                    var nevInput = document.getElementById('Nev');
+                    var emailInput = document.getElementById('Emailcim');
+                    var telefonInput = document.getElementById('Telefonszam');
 
-            // Kezdetben letiltjuk az elküldés gombot
-            submitButton.disabled = true;
+                    // Kezdetben letiltjuk az elküldés gombot
+                    submitButton.disabled = true;
 
-            function validateForm() {
-                var re = /^#[0-9A-F]{6}$/i;
-                var telre = /^\+?[0-9]+$/i;
-                var emailre = /\S+@("@")\S+\.\S+/i;
-                if (re.test(szinInput.value) && nevInput.value.trim() !== "" && emailre.test(emailInput.value) && telre.test(telefonInput.value)) {
-                    submitButton.disabled = false; // Engedélyezzük az elküldés gombot
-                } else {
-                    submitButton.disabled = true; // Letiltjuk az elküldés gombot
-                }
-            }
-
-            // Hibaüzenetek megjelenítése
-            var errorDivs = {};
-            ['Szin', 'Nev', 'Emailcim', 'Telefonszam'].forEach(function(id) {
-                var input = document.getElementById(id);
-                var errorDiv = document.createElement('div');
-                errorDiv.id = id + 'Error';
-                input.parentNode.insertBefore(errorDiv, input.nextSibling);
-                errorDivs[id] = errorDiv;
-            });
-
-            szinInput.addEventListener('input', function (e) {
-                var re = /^#[0-9A-F]{6}$/i;
-                if (re.test(e.target.value)) {
-                    errorDivs['Szin'].textContent = '';
-                } else {
-                    errorDivs['Szin'].textContent = 'Kérlek, adj meg egy érvényes hexadecimális színkódot! (#AA00FF)';
-                }
-                validateForm();
-            });
-
-            nevInput.addEventListener('input', function (e) {
-                if (e.target.value.trim() !== "") {
-                    errorDivs['Nev'].textContent = '';
-                } else {
-                    errorDivs['Nev'].textContent = 'Kérlek, adj meg egy érvényes nevet!';
-                }
-                validateForm();
-            });
-
-            emailInput.addEventListener('input', function (e) {
-                setTimeout(function() {
-                    var re = /\S+@("@")\S+\.\S+/;
-                    if (re.test(e.target.value)) {
-                        errorDivs['Emailcim'].textContent = '';
-                    } else {
-                        errorDivs['Emailcim'].textContent = 'Kérlek, adj meg egy érvényes email címet!';
+                    function validateForm() {
+                        var re = /^#[0-9A-F]{6}$/i;
+                        var telre = /^\+?[0-9]+$/i;
+                        var emailre = /\S+@("@")\S+\.\S+/i;
+                        if (re.test(szinInput.value) && nevInput.value.trim() !== "" && emailre.test(emailInput.value) && telre.test(telefonInput.value)) {
+                            submitButton.disabled = false; // Engedélyezzük az elküldés gombot
+                        } else {
+                            submitButton.disabled = true; // Letiltjuk az elküldés gombot
+                        }
                     }
-                    validateForm();
-                }, 100);
-            });
 
-            telefonInput.addEventListener('input', function (e) {
-                if (/^\+?[0-9]+$/.test(e.target.value)) {
-                    errorDivs['Telefonszam'].textContent = '';
-                } else {
-                    errorDivs['Telefonszam'].textContent = 'Kérlek, adj meg egy érvényes telefonszámot!';
-                }
-                validateForm();
-            });
+                    // Hibaüzenetek megjelenítése
 
 
-
-
-            (function ($, Sys) {
-            $(function () {
-                var form = document.forms[0];
-
-                $('#submitid').click(function () {
-                    fetch(form.action, {
-                        method: form.method,
-                        body: new FormData(form)
-                    }).then(data => {
-                        swal({
-                            title: "SIKERES AJÁNLATKÜLDÉS!",
-                            text: "Csapatunk hamarosan felveszi Önnel a kapcsolatot. Rendelés száma: @ViewBag.SwalText Köszönjük, hogy minket választott! Üdvözlettel: CORVIN 3D",
-                            icon: "success",
-                            buttons: {
-                                confirm: {
-                                    text: "VISSZA A FŐOLDALRA",
-                                    value: true,
-                                    visible: true,
-                                    className: "sweet-alert-confirm-btn",
-                                    closeModal: false // A swal ablak most nem záródik automatikusan
-                                }
-                            },
-                            className: "sweet-alert-centered"
-                        }).then((value) => {
-                            if (value) {
-                                //window.location.href = "http://20.234.113.211:8109/";
-                            } else {
-                                document.forms[0].reset();
-                            }
-                        });
-                    }).catch(error => {
-                        console.error('Hiba történt:', error);
-                        // Kezeld a hibát itt
+                    szinInput.addEventListener('input', function (e) {
+                        var re = /^#[0-9A-F]{6}$/i;
+                        if (re.test(e.target.value)) {
+                            document.getElementById('szinError').textContent = '';
+                        } else {
+                            document.getElementById('szinError').textContent = 'Kérlek, adj meg egy érvényes hexadecimális színkódot! (#AA00FF)';
+                        }
+                        validateForm();
                     });
-                });
-            });
-        })(jQuery, window.Sys);
+
+                    nevInput.addEventListener('input', function (e) {
+                        if (e.target.value.trim() !== "") {
+                            document.getElementById('nevError').textContent = '';
+                        } else {
+                            document.getElementById('nevError').textContent = 'Kérlek, adj meg egy érvényes nevet!';
+                        }
+                        validateForm();
+                    });
+
+                    emailInput.addEventListener('input', function (e) {
+                        setTimeout(function() {
+                            var re = /\S+@("@")\S+\.\S+/;
+                            if (re.test(e.target.value)) {
+                                document.getElementById('emailError').textContent = '';
+                            } else {
+                                document.getElementById('emailError').textContent = 'Kérlek, adj meg egy érvényes email címet!';
+                            }
+                            validateForm();
+                        }, 100);
+                    });
+
+                    telefonInput.addEventListener('input', function (e) {
+                        if (/^\+?[0-9]+$/.test(e.target.value)) {
+                            document.getElementById('telefonError').textContent = '';
+                        } else {
+                            document.getElementById('telefonError').textContent = 'Kérlek, adj meg egy érvényes telefonszámot!';
+                        }
+                        validateForm();
+                    });
+
+
+
+
+                    (function ($, Sys) {
+                    $(function () {
+                        var form = document.forms[0];
+
+                        $('#submitid').click(function () {
+                            fetch(form.action, {
+                                method: form.method,
+                                body: new FormData(form)
+                            }).then(data => {
+                                swal({
+                                    title: "SIKERES AJÁNLATKÜLDÉS!",
+                                    text: "Csapatunk hamarosan felveszi Önnel a kapcsolatot. Rendelés száma: @ViewBag.SwalText Köszönjük, hogy minket választott! Üdvözlettel: CORVIN 3D",
+                                    icon: "success",
+                                    buttons: {
+                                        confirm: {
+                                            text: "VISSZA A FŐOLDALRA",
+                                            value: true,
+                                            visible: true,
+                                            className: "sweet-alert-confirm-btn",
+                                            closeModal: false // A swal ablak most nem záródik automatikusan
+                                        }
+                                    },
+                                    className: "sweet-alert-centered"
+                                }).then((value) => {
+                                    if (value) {
+                                        //window.location.href = "http://20.234.113.211:8109/";
+                                    } else {
+                                        document.forms[0].reset();
+                                    }
+                                });
+                            }).catch(error => {
+                                console.error('Hiba történt:', error);
+                                // Kezeld a hibát itt
+                            });
+                        });
+                    });
+                })(jQuery, window.Sys);
 </script>
