@@ -85,9 +85,9 @@ namespace Christoc.Modules.habibibabu.Components
                 City = "_",
                 CountryBvin = "_",
                 FirstName = rv.RendelesUgyfel.Nev,
-                LastName = "_",
-                Line1 = "_",
-                Line2 = "_",
+                LastName = rv.RendelesUgyfel.Ceg,
+                Line1 = rv.Rendeles.RendelesId.ToString(),
+                Line2 = rv.RendelesUgyfel.Ugyfel_Id.ToString(),
                 Phone = rv.RendelesUgyfel.Telefonszam,
                 PostalCode = "_",
                 RegionBvin = "_"
